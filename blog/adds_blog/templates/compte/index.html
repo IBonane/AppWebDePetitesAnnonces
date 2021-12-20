@@ -1,0 +1,43 @@
+{% extends 'compte/base.html' %}
+
+{% block content %}
+<section >
+   <div class="section-haut text-accroche">
+    <h3>Avec la livraison chez vous en point relais tout est à portée de main !</h3>
+    <h4>Trouvez la bonne affaire parmi les millions de petites annonces leboncoin</h4>
+   </div>
+
+    <div class="section-centre">
+        <!--div class="categories dropdown">
+            <label class="dropbtn">☰ Categories</label>
+            <div class="dropdown-content">
+                    <a href="#">
+                       {% for cat in Category %}
+                       {% endfor %}
+                    </a>
+
+            </div>
+        </div-->
+        <form class="form-input" action="{% url 'articles:search' %}">
+            <input class="search-bar" type="text" placeholder="Recherche" name="article">
+            <br><br>
+            <button class="button-search" type="input">Chercher</button>
+        </form>
+   </div>
+</section>
+    {% csrf_token %}
+<div class="articles">
+    {% for article in articles %}
+        <div class="box-img" style="text-align: center; color: white" >
+            <a href="{% url 'articles:article' slug=article.slug %}">
+                {% if article.image %}
+                    <img src="{{ article.image.url }}" alt='f"image : "{article.title}'>
+                {% endif %}
+                <h2>{{article.title | safe | truncatewords:4}}</h2>
+                <h5>Publié le {{article.created_at|date:'j F Y à H:i'}}</h5>
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}
